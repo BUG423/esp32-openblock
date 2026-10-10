@@ -42,9 +42,9 @@
 
 .blocks :global(.blocklyToolboxDiv) {
     border-right: 1px solid $ui-black-transparent;
-    border-bottom: none;
+    border-bottom: 1px solid $ui-black-transparent;
     box-sizing: content-box;
-    height: 100% !important;
+    height: calc(100% - 3.25rem) !important;
 
     /*
         For now, the layout cannot support scrollbars in the category menu.

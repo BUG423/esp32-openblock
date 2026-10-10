@@ -11,32 +11,32 @@
   },
   {
     "id": "gui.device.txdboard.description",
-    "description": "Description for the ESP32 MicroPython device",
-    "defaultMessage": "ESP32 board with MicroPython and OpenBlock hardware extensions."
+    "description": "Description for TXD TEST BOARD",
+    "defaultMessage": "南强派"
   },
   {
     "id": "gui.device.txdboard.connectingMessage",
-    "description": "Message shown while connecting to an ESP32 MicroPython device",
+    "description": "Message to help people connect to their 南强派",
     "defaultMessage": "Connecting"
   },
   {
     "id": "gui.device.loongbian.description",
-    "description": "Description for the Loongson education board",
-    "defaultMessage": "Loongson 2K1000 education board with visual Python programming."
+    "description": "Description for the loongson device",
+    "defaultMessage": "龙芯2k1000教育派"
   },
   {
     "id": "gui.device.loongbian.connectingMessage",
-    "description": "Message shown while connecting to a Loongson education board",
+    "description": "Message to help people connect to their loongbian 2k1000.",
     "defaultMessage": "Connecting"
   },
   {
     "id": "gui.device.atlas200DK.description",
     "description": "Description for the Atlas 200 DK device",
-    "defaultMessage": "Atlas 200 DK AI developer kit with visual Python programming."
+    "defaultMessage": "Atlas 200 DK 开发者套件"
   },
   {
     "id": "gui.device.atlas200DK.connectingMessage",
-    "description": "Message shown while connecting to an Atlas 200 DK",
+    "description": "Message to help people connect to their Atlas 200 DK.",
     "defaultMessage": "Connecting"
   },
   {

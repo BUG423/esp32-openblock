@@ -2,7 +2,7 @@ const JSONRPC = require('../util/jsonrpc');
 
 
 class WiFi extends JSONRPC {
-    /**
+    /** especially for loongson
      * A wifi peripheral socket object.  It handles connecting, over web sockets, to
      * serialport peripherals, and reading and writing data to them.
      * @param {Runtime} runtime - the Runtime for sending/receiving GUI update events.

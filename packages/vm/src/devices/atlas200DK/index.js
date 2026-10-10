@@ -3,7 +3,7 @@ const formatMessage = require('format-message');
 const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
 
-const Atlas200DKPeripheral = require('../common/wifi-peripheral');
+const Atlas200DKPeripheral = require('../common/loongson-peripheral');
 
 const DIVECE_OPT = {
     type: 'huawei'  //  告诉 openblock-link 使用哪种编译器和烧写软件来接收处理上传请求。

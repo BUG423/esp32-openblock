@@ -5,9 +5,9 @@ gracefulFs.gracefulify(realFs);
 
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var path = require('path');
-const closureLibraryDir = path.dirname(require.resolve('google-closure-library/package.json'));
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-const configurations = [{
+module.exports = [{
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: {
     horizontal: './shim/horizontal.js',
@@ -38,7 +38,13 @@ const configurations = [{
     filename: '[name].js'
   },
   optimization: {
-    minimize: process.env.NODE_ENV === 'production'
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          mangle: false
+        }
+      })
+    ]
   },
   plugins: []
 },
@@ -56,8 +62,8 @@ const configurations = [{
     hints: false
   },
   plugins: [
-    new CopyWebpackPlugin({patterns: [{
-        from: closureLibraryDir,
+      new CopyWebpackPlugin([{
+        from: 'node_modules/google-closure-library',
         to: 'closure-library'
       }, {
         from: 'blocks_common',
@@ -82,11 +88,8 @@ const configurations = [{
         to: 'playgrounds/tests'
       }, {
         from: '*.js',
-        globOptions: {ignore: ['**/webpack.config.js']},
+        ignore: 'webpack.config.js',
         to: 'playgrounds'
-      }]})
+      }])
   ]
 }];
-
-module.exports = process.env.BUILD_GH_PAGES === 'true' ?
-  configurations : configurations.slice(0, 2);

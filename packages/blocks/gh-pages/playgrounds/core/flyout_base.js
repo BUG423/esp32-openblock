@@ -158,6 +158,7 @@ Blockly.Flyout = function (workspaceOptions) {
    * @type {!Array.<string>}
    * @private
    */
+  // MARK deviceTypeList_
   this.deviceTypeList_ = ['microbit', 'arduino', 'loongson', 'huawei', 'microPython'];
 };
 

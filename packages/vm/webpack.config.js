@@ -1,23 +1,16 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const defaultsDeep = require('lodash.defaultsdeep');
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const path = require('path');
-const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const base = {
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     devServer: {
-        static: false,
+        contentBase: false,
         host: '0.0.0.0',
         port: process.env.PORT || 8073
     },
-    devtool: process.env.NODE_ENV === 'production' ? false : 'cheap-module-source-map',
-    resolve: {
-        fallback: {
-            buffer: require.resolve('buffer/')
-        },
-        fullySpecified: false
-    },
+    devtool: 'cheap-module-source-map',
     output: {
         library: 'VirtualMachine',
         filename: '[name].js'
@@ -27,7 +20,7 @@ const base = {
             test: /\.js$/,
             loader: 'babel-loader',
             include: path.resolve(__dirname, 'src'),
-            options: {
+            query: {
                 presets: [['@babel/preset-env', {targets: {browsers: ['last 3 versions', 'Safari >= 8', 'iOS >= 8']}}]]
             }
         },
@@ -36,15 +29,17 @@ const base = {
             loader: 'file-loader'
         }]
     },
-    plugins: [
-        new NodePolyfillPlugin({excludeAliases: ['Buffer', 'buffer']}),
-        new webpack.ProvidePlugin({
-            Buffer: [require.resolve('buffer/'), 'Buffer']
-        })
-    ]
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+                include: /\.min\.js$/
+            })
+        ]
+    },
+    plugins: []
 };
 
-const configurations = [
+module.exports = [
     // Web-compatible
     defaultsDeep({}, base, {
         target: 'web',
@@ -60,8 +55,7 @@ const configurations = [
             rules: base.module.rules.concat([
                 {
                     test: require.resolve('./src/index.js'),
-                    loader: 'expose-loader',
-                    options: {exposes: 'VirtualMachine'}
+                    loader: 'expose-loader?VirtualMachine'
                 }
             ])
         }
@@ -92,7 +86,8 @@ const configurations = [
     defaultsDeep({}, base, {
         target: 'web',
         entry: {
-            'benchmark': './src/playground/benchmark'
+            'benchmark': './src/playground/benchmark',
+            'video-sensing-extension-debug': './src/extensions/scratch3_video_sensing/debug'
         },
         output: {
             path: path.resolve(__dirname, 'playground'),
@@ -102,33 +97,31 @@ const configurations = [
             rules: base.module.rules.concat([
                 {
                     test: require.resolve('./src/index.js'),
-                    loader: 'expose-loader',
-                    options: {exposes: 'VirtualMachine'}
+                    loader: 'expose-loader?VirtualMachine'
+                },
+                {
+                    test: require.resolve('./src/extensions/scratch3_video_sensing/debug.js'),
+                    loader: 'expose-loader?Scratch3VideoSensingDebug'
                 },
                 {
                     test: require.resolve('stats.js/build/stats.min.js'),
-                    loader: 'expose-loader',
-                    options: {exposes: 'Stats'}
+                    loader: 'script-loader'
                 },
                 {
                     test: require.resolve('openblock-blocks/dist/vertical.js'),
-                    loader: 'expose-loader',
-                    options: {exposes: 'Blockly'}
+                    loader: 'expose-loader?Blockly'
                 },
                 {
                     test: require.resolve('scratch-audio/src/index.js'),
-                    loader: 'expose-loader',
-                    options: {exposes: 'AudioEngine'}
+                    loader: 'expose-loader?AudioEngine'
                 },
                 {
                     test: require.resolve('scratch-storage/src/index.js'),
-                    loader: 'expose-loader',
-                    options: {exposes: 'ScratchStorage'}
+                    loader: 'expose-loader?ScratchStorage'
                 },
                 {
                     test: require.resolve('scratch-render/src/index.js'),
-                    loader: 'expose-loader',
-                    options: {exposes: 'ScratchRender'}
+                    loader: 'expose-loader?ScratchRender'
                 }
             ])
         },
@@ -136,7 +129,7 @@ const configurations = [
             hints: false
         },
         plugins: base.plugins.concat([
-            new CopyWebpackPlugin({patterns: [{
+            new CopyWebpackPlugin([{
                 from: 'node_modules/openblock-blocks/media',
                 to: 'media'
             }, {
@@ -147,10 +140,7 @@ const configurations = [
                 from: 'node_modules/scratch-svg-renderer/dist/web'
             }, {
                 from: 'src/playground'
-            }]})
+            }])
         ])
     })
 ];
-
-module.exports = process.env.BUILD_PLAYGROUND === 'true' ?
-    configurations : configurations.slice(0, 2);

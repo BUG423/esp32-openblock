@@ -114,8 +114,8 @@ const AlertComponent = ({
                     onClick={onUploadFirmware}
                 >
                     <FormattedMessage
-                        defaultMessage="Upload program"
-                        description="Button to upload the user's program to the connected device"
+                        defaultMessage="Upload firmware"
+                        description="Button to upload the realtime firmware"
                         id="gui.alerts.uploadFirmware"
                     />
                 </button>

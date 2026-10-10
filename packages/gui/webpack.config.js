@@ -5,8 +5,8 @@ var webpack = require('webpack');
 // Plugins
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 // PostCss
 var autoprefixer = require('autoprefixer');
@@ -14,18 +14,13 @@ var postcssVars = require('postcss-simple-vars');
 var postcssImport = require('postcss-import');
 
 const STATIC_PATH = process.env.STATIC_PATH || '/static';
-const MONACO_DIR = path.resolve(__dirname, '../../node_modules/monaco-editor');
-const BLOCKS_MEDIA_DIR = path.resolve(__dirname, '../blocks/media');
-const VM_WEB_DIST_DIR = path.resolve(__dirname, '../vm/dist/web');
-const IS_PORTAL_BUILD = process.env.BUILD_MODE === 'portal';
+const MONACO_DIR = path.resolve(__dirname, './node_modules/monaco-editor');
 
 const base = {
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-    devtool: process.env.NODE_ENV === 'production' ? false : 'cheap-module-source-map',
+    devtool: 'cheap-module-source-map',
     devServer: {
-        static: {
-            directory: path.resolve(__dirname, 'build')
-        },
+        contentBase: path.resolve(__dirname, 'build'),
         host: '0.0.0.0',
         port: process.env.PORT || 8601
     },
@@ -35,13 +30,6 @@ const base = {
         chunkFilename: 'chunks/[name].js'
     },
     resolve: {
-        alias: {
-            'scratch-storage$': require.resolve('scratch-storage/dist/web/scratch-storage.js')
-        },
-        fallback: {
-            buffer: require.resolve('buffer/')
-        },
-        fullySpecified: false,
         symlinks: false
     },
     module: {
@@ -76,26 +64,21 @@ const base = {
             }, {
                 loader: 'css-loader',
                 options: {
-                    modules: {
-                        localIdentName: '[name]_[local]_[hash:base64:5]',
-                        // OpenBlock's legacy React components import CSS modules
-                        // as a default object (`styles.className`). css-loader 7
-                        // defaults to named exports for ES modules, which makes
-                        // that object undefined and crashes the editor at boot.
-                        namedExport: false,
-                        exportLocalsConvention: 'camel-case'
-                    },
+                    modules: true,
                     importLoaders: 1,
+                    localIdentName: '[name]_[local]_[hash:base64:5]',
+                    camelCase: true
                 }
             }, {
                 loader: 'postcss-loader',
                 options: {
-                    postcssOptions: {
-                        plugins: [
-                            postcssImport(),
-                            postcssVars(),
-                            autoprefixer()
-                        ]
+                    ident: 'postcss',
+                    plugins: function () {
+                        return [
+                            postcssImport,
+                            postcssVars,
+                            autoprefixer
+                        ];
                     }
                 }
             }]
@@ -106,11 +89,14 @@ const base = {
             use: ['style-loader', 'css-loader']
         }]
     },
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+                include: /\.min\.js$/
+            })
+        ]
+    },
     plugins: [
-        new NodePolyfillPlugin({excludeAliases: ['Buffer', 'buffer']}),
-        new webpack.ProvidePlugin({
-            Buffer: [require.resolve('buffer/'), 'Buffer']
-        }),
         new MonacoWebpackPlugin({
             languages: ['c', 'cpp', 'python', 'lua', 'javascript'],
             features: ['!gotoSymbol']
@@ -125,24 +111,16 @@ if (!process.env.CI) {
 module.exports = [
     // to run editor examples
     defaultsDeep({}, base, {
-        entry: IS_PORTAL_BUILD ? {
+        entry: {
             'lib.min': ['react', 'react-dom'],
-            'gui': {import: './src/playground/index.jsx', dependOn: 'lib.min'}
-        } : {
-            'lib.min': ['react', 'react-dom'],
-            'gui': {import: './src/playground/index.jsx', dependOn: 'lib.min'},
-            'blocksonly': {import: './src/playground/blocks-only.jsx', dependOn: 'lib.min'},
-            'compatibilitytesting': {import: './src/playground/compatibility-testing.jsx', dependOn: 'lib.min'},
-            'player': {import: './src/playground/player.jsx', dependOn: 'lib.min'}
+            'gui': './src/playground/index.jsx',
+            'blocksonly': './src/playground/blocks-only.jsx',
+            'compatibilitytesting': './src/playground/compatibility-testing.jsx',
+            'player': './src/playground/player.jsx'
         },
         output: {
             path: path.resolve(__dirname, 'build'),
             filename: '[name].js'
-        },
-        optimization: {
-            // Legacy Blockly shims emit wrapper syntax that cannot be safely
-            // concatenated into a single production module by modern Terser.
-            concatenateModules: false
         },
         module: {
             rules: base.module.rules.concat([
@@ -155,8 +133,18 @@ module.exports = [
                 }
             ])
         },
+        optimization: {
+            splitChunks: {
+                chunks: 'all',
+                name: 'lib.min'
+            },
+            runtimeChunk: {
+                name: 'lib.min'
+            }
+        },
         plugins: base.plugins.concat([
             new webpack.DefinePlugin({
+                'process.env.NODE_ENV': '"' + process.env.NODE_ENV + '"',
                 'process.env.DEBUG': Boolean(process.env.DEBUG),
                 'process.env.GA_ID': '"' + (process.env.GA_ID || 'UA-000000-01') + '"'
             }),
@@ -165,8 +153,7 @@ module.exports = [
                 template: 'src/playground/index.ejs',
                 title: 'Block GUI',
                 sentryConfig: process.env.SENTRY_CONFIG ? '"' + process.env.SENTRY_CONFIG + '"' : null
-            })
-        ], IS_PORTAL_BUILD ? [] : [
+            }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'blocksonly'],
                 template: 'src/playground/index.ejs',
@@ -184,29 +171,28 @@ module.exports = [
                 template: 'src/playground/index.ejs',
                 filename: 'player.html',
                 title: 'Block GUI: Player Example'
-            })
-        ], [
-            new CopyWebpackPlugin({patterns: [{
+            }),
+            new CopyWebpackPlugin([{
                 from: 'static',
                 to: 'static'
-            }]}),
-            new CopyWebpackPlugin({patterns: [{
-                from: BLOCKS_MEDIA_DIR,
+            }]),
+            new CopyWebpackPlugin([{
+                from: 'node_modules/openblock-blocks/media',
                 to: 'static/blocks-media'
-            }]}),
-            new CopyWebpackPlugin({patterns: [{
+            }]),
+            new CopyWebpackPlugin([{
                 from: 'extensions/**',
                 to: 'static',
                 context: 'src/examples'
-            }]}),
-            new CopyWebpackPlugin({patterns: [{
-                from: 'extension-worker.js',
-                context: VM_WEB_DIST_DIR
-            }]})
+            }]),
+            new CopyWebpackPlugin([{
+                from: 'extension-worker.{js,js.map}',
+                context: 'node_modules/openblock-vm/dist/web'
+            }])
         ])
     })
 ].concat(
-    process.env.BUILD_MODE === 'dist' ? (
+    process.env.NODE_ENV === 'production' || process.env.BUILD_MODE === 'dist' ? (
         // export as library
         defaultsDeep({}, base, {
             target: 'web',
@@ -235,20 +221,20 @@ module.exports = [
                 ])
             },
             plugins: base.plugins.concat([
-                new CopyWebpackPlugin({patterns: [{
-                    from: BLOCKS_MEDIA_DIR,
+                new CopyWebpackPlugin([{
+                    from: 'node_modules/openblock-blocks/media',
                     to: 'static/blocks-media'
-                }]}),
-                new CopyWebpackPlugin({patterns: [{
-                    from: 'extension-worker.js',
-                    context: VM_WEB_DIST_DIR
-                }]}),
+                }]),
+                new CopyWebpackPlugin([{
+                    from: 'extension-worker.{js,js.map}',
+                    context: 'node_modules/openblock-vm/dist/web'
+                }]),
                 // Include library JSON files for scratch-desktop to use for downloading
-                new CopyWebpackPlugin({patterns: [{
+                new CopyWebpackPlugin([{
                     from: 'src/lib/libraries/*.json',
                     to: 'libraries',
-                    toType: 'dir'
-                }]})
+                    flatten: true
+                }])
             ])
         })) : []
 );

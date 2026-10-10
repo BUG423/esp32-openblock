@@ -21,6 +21,11 @@ const builtinExtensions = {
     // but serves as a reference for loading core blocks as extensions.
     coreExample: () => require('../blocks/scratch3_core_example'),
     // These are the non-core built-in extensions.
+    pen: () => require('../extensions/scratch3_pen'),
+    music: () => require('../extensions/scratch3_music'),
+    text2speech: () => require('../extensions/scratch3_text2speech'),
+    translate: () => require('../extensions/scratch3_translate'),
+    videoSensing: () => require('../extensions/scratch3_video_sensing'),
     makeymakey: () => require('../extensions/scratch3_makeymakey')
 };
 
@@ -35,9 +40,17 @@ const builtinDevices = {
     microbit: () => require('../devices/microbit'),
     makeyMakey: () => require('../devices/makeymakey'),
     microbitV2: () => require('../devices/microbitV2'),
-    loongbian: () => require('../devices/loongbian'),
+    loongbian: () => require('../devices/loongbian'), // build in devices //MARK builtinDevices
     atlas200DK: () => require('../devices/atlas200DK'),
     txdboard: () => require('../devices/txdboard')
+
+    
+    // todo transform these to device extension
+    // wedo2: () => require('../extensions/scratch3_wedo2'),
+    // ev3: () => require('../extensions/scratch3_ev3'),
+    // boost: () => require('../extensions/scratch3_boost'),
+    // gdxfor: () => require('../extensions/scratch3_gdx_for'),
+    // makeymakey: () => require('../extensions/scratch3_makeymakey')
 };
 
 /**
@@ -197,7 +210,7 @@ class ExtensionManager {
 
         return new Promise((resolve, reject) => {
             // If we `require` this at the global level it breaks non-webpack targets, including tests
-            const ExtensionWorker = require('worker-loader?filename=extension-worker.js!./extension-worker');
+            const ExtensionWorker = require('worker-loader?name=extension-worker.js!./extension-worker');
 
             this.pendingExtensions.push({extensionURL, resolve, reject});
             dispatch.addWorker(new ExtensionWorker());

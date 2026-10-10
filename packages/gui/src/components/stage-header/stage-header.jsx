@@ -18,7 +18,7 @@ import unFullScreenIcon from './icon--unfullscreen.svg';
 
 import signalIcon from './icon--signal.svg';
 
-import openblockLogo from '../menu-bar/openblock-logo.svg';
+import scratchLogo from '../menu-bar/scratch-logo.svg';
 import styles from './stage-header.css';
 
 const messages = defineMessages({
@@ -77,7 +77,7 @@ const StageHeaderComponent = function (props) {
                 >
                     <img
                         alt="OpenBlock"
-                        src={openblockLogo}
+                        src={scratchLogo}
                     />
                 </a>
             </div>

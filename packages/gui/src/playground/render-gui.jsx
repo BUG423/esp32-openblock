@@ -9,6 +9,10 @@ import HashParserHOC from '../lib/hash-parser-hoc.jsx';
 import log from '../lib/log.js';
 import MessageBoxType from '../lib/message-box.js';
 
+const onClickLogo = () => {
+    window.location = 'https://openblockcc.github.io/wiki/';
+};
+
 const onClickCheckUpdate = () => {
     log('User click check update');
 };
@@ -109,6 +113,11 @@ export default appTarget => {
         }
     }
 
+    if (process.env.NODE_ENV === 'production' && typeof window === 'object') {
+        // Warn before navigating away
+        window.onbeforeunload = () => true;
+    }
+
     ReactDOM.render(
         // important: this is checking whether `simulateScratchDesktop` is truthy, not just defined!
         simulateScratchDesktop ?
@@ -134,6 +143,7 @@ export default appTarget => {
                 showComingSoon
                 backpackHost={backpackHost}
                 canSave={false}
+                onClickLogo={onClickLogo}
                 onShowMessageBox={handleShowMessageBox}
             />,
         appTarget);

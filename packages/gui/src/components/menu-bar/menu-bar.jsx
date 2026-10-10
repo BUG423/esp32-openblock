@@ -32,6 +32,7 @@ import {isScratchDesktop} from '../../lib/isScratchDesktop';
 import {UPDATE_MODAL_STATE} from '../../lib/update-state.js';
 
 import {
+    openTipsLibrary,
     openUploadProgress,
     openUpdateModal,
     openConnectionModal,
@@ -80,6 +81,7 @@ import collectMetadata from '../../lib/collect-metadata';
 
 import styles from './menu-bar.css';
 
+import helpIcon from '../../lib/assets/icon--tutorials.svg';
 import mystuffIcon from './icon--mystuff.png'; // eslint-disable-line no-unused-vars
 import profileIcon from './icon--profile.png'; // eslint-disable-line no-unused-vars
 import remixIcon from './icon--remix.svg';
@@ -88,7 +90,7 @@ import languageIcon from '../language-selector/language-icon.svg';
 import aboutIcon from './icon--about.svg';
 import linkSocketIcon from './icon--link-socket.svg'; // eslint-disable-line no-unused-vars
 
-import openblockLogo from './openblock-logo.svg';
+import scratchLogo from './scratch-logo.svg';
 
 import sharedMessages from '../../lib/shared-messages';
 
@@ -98,9 +100,11 @@ import deviceIcon from './icon--device.svg';
 import unconnectedIcon from './icon--unconnected.svg';
 import connectedIcon from './icon--connected.svg';
 import fileIcon from './icon--file.svg';
+import screenshotIcon from './icon--screenshot.svg';
 import settingIcon from './icon--setting.svg';
 
 import uploadFirmwareIcon from './icon--upload-firmware.svg';
+import saveSvgAsPng from 'openblock-save-svg-as-png';
 import {showAlertWithTimeout} from '../../reducers/alerts';
 
 const ariaMessages = defineMessages({
@@ -108,6 +112,11 @@ const ariaMessages = defineMessages({
         id: 'gui.menuBar.LanguageSelector',
         defaultMessage: 'language selector',
         description: 'accessibility text for the language selection menu'
+    },
+    tutorials: {
+        id: 'gui.menuBar.tutorialsLibrary',
+        defaultMessage: 'Tutorials',
+        description: 'accessibility text for the tutorials button'
     }
 });
 
@@ -194,10 +203,11 @@ class MenuBar extends React.Component {
             'getSaveToComputerHandler',
             'restoreOptionMessage',
             'handleConnectionMouseUp',
-            'handleUploadProgram',
+            'handleUploadFirmware',
             'handleSelectDeviceMouseUp',
             'handleProgramModeSwitchOnChange',
             'handleProgramModeUpdate',
+            'handleScreenshot',
             'handleCheckUpdate',
             'handleClearCache'
         ]);
@@ -353,17 +363,32 @@ class MenuBar extends React.Component {
             this.props.onSetUploadMode();
         }
     }
-    handleUploadProgram () {
-        if (this.props.deviceId && this.props.peripheralName) {
-            const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
-            if (blocks && blocks.getBBox().height === 0 && this.props.isCodeEditorLocked) {
-                this.props.onWorkspaceIsEmpty();
-                return;
-            }
-            this.props.vm.uploadToPeripheral(this.props.deviceId, this.props.codeEditorValue);
+    handleUploadFirmware () {
+        if (this.props.deviceId) {
+            this.props.vm.uploadFirmwareToPeripheral(this.props.deviceId);
+            this.props.onSetRealtimeConnection(false);
             this.props.onOpenUploadProgress();
         } else {
             this.props.onNoPeripheralIsConnected();
+        }
+    }
+    handleScreenshot () {
+        const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
+        if (blocks.getBBox().height === 0) {
+            this.props.onWorkspaceIsEmpty();
+        } else {
+            const transform = blocks.getAttribute('transform');
+            const scale = parseFloat(transform.substring(transform.indexOf('scale') + 6, transform.length - 1));
+            const data = new Date();
+
+            saveSvgAsPng.saveSvgAsPng(blocks, `${this.props.projectTitle}-${data.getTime()}.png`, {
+                left: blocks.getBBox().x * scale,
+                top: blocks.getBBox().y * scale,
+                height: blocks.getBBox().height * scale,
+                width: blocks.getBBox().width * scale,
+                scale: 2 / scale,
+                encoderOptions: 1
+            });
         }
     }
     handleCheckUpdate () {
@@ -476,22 +501,21 @@ class MenuBar extends React.Component {
         const aboutButton = this.buildAboutMenu(this.props.onClickAbout);
         return (
             <Box
-                data-testid="openblock-menu-bar"
                 className={classNames(
                     this.props.className,
                     styles.menuBar
                 )}
             >
                 <div className={styles.mainMenu}>
-                    <div
-                        data-testid="window-drag-region"
-                        className={classNames(styles.menuBarItem)}
-                    >
+                    <div className={classNames(styles.menuBarItem)}>
                         <img
                             alt="OpenBlock"
-                            className={styles.scratchLogo}
+                            className={classNames(styles.scratchLogo, {
+                                [styles.clickable]: typeof this.props.onClickLogo !== 'undefined'
+                            })}
                             draggable={false}
                             src={this.props.logo}
+                            onClick={this.props.onClickLogo}
                         />
                     </div>
                     {(this.props.canChangeLanguage) && (<div
@@ -561,7 +585,6 @@ class MenuBar extends React.Component {
                     <Divider className={classNames(styles.divider)} />
                     <div
                         className={classNames(styles.menuBarItem, styles.hoverable)}
-                        data-testid="select-device-button"
                         onMouseUp={this.handleSelectDeviceMouseUp}
                     >
                         <img
@@ -583,7 +606,6 @@ class MenuBar extends React.Component {
                     </div>
                     <Divider className={classNames(styles.divider)} />
                     <div
-                        data-testid="connection-button"
                         className={classNames(styles.menuBarItem, styles.hoverable)}
                         onMouseUp={this.handleConnectionMouseUp}
                     >
@@ -713,10 +735,22 @@ class MenuBar extends React.Component {
                 </div>
                 <div className={styles.tailMenu}>
                     <div
-                        data-testid="upload-firmware-button"
-                        className={classNames(styles.menuBarItem,
+                        className={classNames(styles.menuBarItem, styles.hoverable)}
+                        onMouseUp={this.handleScreenshot}
+                    >
+                        <img
+                            alt="Screenshot"
+                            className={classNames(styles.screenShotLogo)}
+                            draggable={false}
+                            src={screenshotIcon}
+                        />
+                    </div>
+                    <Divider className={classNames(styles.divider)} />
+                    <div
+                        className={classNames(styles.menuBarItem, this.props.isRealtimeMode &&
                             this.props.peripheralName ? styles.hoverable : styles.disabled)}
-                        onMouseUp={this.props.peripheralName ? this.handleUploadProgram : null}
+                        onMouseUp={this.props.isRealtimeMode && this.props.peripheralName ?
+                            this.handleUploadFirmware : null}
                     >
                         <img
                             alt="UploadFirmware"
@@ -725,16 +759,25 @@ class MenuBar extends React.Component {
                             src={uploadFirmwareIcon}
                         />
                         <FormattedMessage
-                            defaultMessage="Upload program"
-                            description="Button to upload the user's program to the connected device"
+                            defaultMessage="Upload firmware"
+                            description="Button to upload the realtime firmware"
                             id="gui.menuBar.uploadFirmware"
                         />
                     </div>
                     <Divider className={classNames(styles.divider)} />
                     <div
-                        className={classNames(styles.menuBarItem, styles.programModeGroup)}
-                        data-testid="program-mode-switch"
+                        aria-label={this.props.intl.formatMessage(ariaMessages.tutorials)}
+                        className={classNames(styles.menuBarItem, styles.hoverable)}
+                        onClick={this.props.onOpenTipLibrary}
                     >
+                        <img
+                            className={styles.helpIcon}
+                            src={helpIcon}
+                        />
+                        <FormattedMessage {...ariaMessages.tutorials} />
+                    </div>
+                    <Divider className={classNames(styles.divider)} />
+                    <div className={classNames(styles.menuBarItem, styles.programModeGroup)}>
                         <Switch
                             className={styles.programModeSwitch}
                             onChange={this.handleProgramModeSwitchOnChange}
@@ -812,63 +855,6 @@ class MenuBar extends React.Component {
                         </div>
                     ) : null}
                 </div>
-                <div
-                    aria-label="窗口控制"
-                    className={styles.windowControls}
-                    data-testid="window-controls"
-                >
-                    <button
-                        aria-label="最小化"
-                        className={styles.windowControl}
-                        data-window-action="minimize"
-                        title="最小化"
-                        type="button"
-                    >
-                        <svg
-                            aria-hidden="true"
-                            focusable="false"
-                            viewBox="0 0 12 12"
-                        >
-                            <path d="M2 8.5h8" />
-                        </svg>
-                    </button>
-                    <button
-                        aria-label="最大化或还原"
-                        className={styles.windowControl}
-                        data-window-action="maximize"
-                        title="最大化或还原"
-                        type="button"
-                    >
-                        <svg
-                            aria-hidden="true"
-                            focusable="false"
-                            viewBox="0 0 12 12"
-                        >
-                            <rect
-                                height="7.5"
-                                rx=".4"
-                                width="7.5"
-                                x="2.25"
-                                y="2.25"
-                            />
-                        </svg>
-                    </button>
-                    <button
-                        aria-label="关闭"
-                        className={classNames(styles.windowControl, styles.windowControlClose)}
-                        data-window-action="close"
-                        title="关闭"
-                        type="button"
-                    >
-                        <svg
-                            aria-hidden="true"
-                            focusable="false"
-                            viewBox="0 0 12 12"
-                        >
-                            <path d="m2.5 2.5 7 7m0-7-7 7" />
-                        </svg>
-                    </button>
-                </div>
                 { (typeof this.props.onClickAbout === 'function') ? aboutButton : null}
             </Box>
         );
@@ -891,7 +877,6 @@ MenuBar.propTypes = {
     canSave: PropTypes.bool,
     canShare: PropTypes.bool,
     className: PropTypes.string,
-    codeEditorValue: PropTypes.string,
     confirmReadyToReplaceProject: PropTypes.func,
     confirmClearCache: PropTypes.func,
     editMenuOpen: PropTypes.bool,
@@ -901,7 +886,6 @@ MenuBar.propTypes = {
     intl: intlShape,
     isUpdating: PropTypes.bool,
     isRealtimeMode: PropTypes.bool.isRequired,
-    isCodeEditorLocked: PropTypes.bool,
     isRtl: PropTypes.bool,
     isShared: PropTypes.bool,
     isShowingProject: PropTypes.bool,
@@ -926,6 +910,7 @@ MenuBar.propTypes = {
     onClickSetting: PropTypes.func,
     onClickLanguage: PropTypes.func,
     onClickLogin: PropTypes.func,
+    onClickLogo: PropTypes.func,
     onClickNew: PropTypes.func,
     onClickRemix: PropTypes.func,
     onClickSave: PropTypes.func,
@@ -936,6 +921,7 @@ MenuBar.propTypes = {
     onLogOut: PropTypes.func,
     onNoPeripheralIsConnected: PropTypes.func.isRequired,
     onOpenRegistration: PropTypes.func,
+    onOpenTipLibrary: PropTypes.func,
     onProjectTelemetryEvent: PropTypes.func,
     onRequestOpenAbout: PropTypes.func,
     onRequestCloseAbout: PropTypes.func,
@@ -977,7 +963,7 @@ MenuBar.propTypes = {
 };
 
 MenuBar.defaultProps = {
-    logo: openblockLogo,
+    logo: scratchLogo,
     onShare: () => {}
 };
 
@@ -992,7 +978,6 @@ const mapStateToProps = (state, ownProps) => {
         editMenuOpen: editMenuOpen(state),
         isUpdating: getIsUpdating(loadingState),
         isRealtimeMode: state.scratchGui.programMode.isRealtimeMode,
-        isCodeEditorLocked: state.scratchGui.code.isCodeEditorLocked,
         isRtl: state.locales.isRtl,
         isShowingProject: getIsShowingProject(loadingState),
         isSupportSwitchMode: state.scratchGui.programMode.isSupportSwitchMode,
@@ -1001,7 +986,6 @@ const mapStateToProps = (state, ownProps) => {
         locale: state.locales.locale,
         loginMenuOpen: loginMenuOpen(state),
         projectTitle: state.scratchGui.projectTitle,
-        codeEditorValue: state.scratchGui.code.codeEditorValue,
         realtimeConnection: state.scratchGui.connectionModal.realtimeConnection,
         sessionExists: state.session && typeof state.session.session !== 'undefined',
         username: user ? user.username : null,
@@ -1017,6 +1001,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
     autoUpdateProject: () => dispatch(autoUpdateProject()),
+    onOpenTipLibrary: () => dispatch(openTipsLibrary()),
     onClickAccount: () => dispatch(openAccountMenu()),
     onRequestCloseAccount: () => dispatch(closeAccountMenu()),
     onClickFile: () => dispatch(openFileMenu()),

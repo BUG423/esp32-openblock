@@ -46,7 +46,7 @@ Blockly.Blocks['event_whentxdboardbegin'] = {
 
 Blockly.Blocks['event_whenhuaweibegin'] = {
   /**
-   * Block for when Atlas 200 DK starts.
+   * Block for when atlas200dk begin.
    * @this Blockly.Block
    */
   init: function () {
@@ -62,9 +62,11 @@ Blockly.Blocks['event_whenhuaweibegin'] = {
   }
 };
 
+
+
 Blockly.Blocks['event_whenloongsonbegin'] = {
   /**
-   * Block for when the Loongson education board starts.
+   * Block for when loongbian begin.
    * @this Blockly.Block
    */
   init: function () {
@@ -79,6 +81,7 @@ Blockly.Blocks['event_whenloongsonbegin'] = {
     });
   }
 };
+
 
 Blockly.Blocks['event_whenarduinobegin'] = {
   /**

@@ -27,25 +27,28 @@ const DeviceType = keyMirror({
      */
     microbit: null,
 
-    /**
-     * Loongson Python programming framework
-     */
-    loongson: null,
 
     /**
-     * Huawei Atlas Python programming framework
+     * Loongson programming framework
+     * Upload tools, etc. are different from standard MicroPython
      */
-    huawei: null
+    loongson: null, // openblock-gui/src/lib/libraries/devices/index.jsx
+
+
+    /** @       private */
+    huawei: null,
+
 });
 
 const getLanguageFromDeviceType = deviceType => {
     // MARK DeviceType 对应 前端编辑器识别的代码类型
     if (deviceType === DeviceType.arduino) {
         return 'cpp';
-    } else if (deviceType === DeviceType.microPython ||
-        deviceType === DeviceType.microbit ||
-        deviceType === DeviceType.loongson ||
-        deviceType === DeviceType.huawei) {
+    } else if (deviceType === DeviceType.microPython
+        || deviceType === DeviceType.microbit
+        || deviceType === DeviceType.loongson
+        || deviceType === DeviceType.huawei
+        || deviceType === DeviceType.microPython) {
         return 'python';
     }
     return 'text';

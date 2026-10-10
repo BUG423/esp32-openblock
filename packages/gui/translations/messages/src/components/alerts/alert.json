@@ -21,7 +21,7 @@
   },
   {
     "id": "gui.alerts.uploadFirmware",
-    "description": "Button to upload the user's program to the connected device",
-    "defaultMessage": "Upload program"
+    "description": "Button to upload the realtime firmware",
+    "defaultMessage": "Upload firmware"
   }
 ]

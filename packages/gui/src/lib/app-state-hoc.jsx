@@ -4,9 +4,12 @@ import {Provider} from 'react-redux';
 import {createStore, combineReducers, compose} from 'redux';
 import ConnectedIntlProvider from './connected-intl-provider.jsx';
 
-import localesReducer, {localesInitialState} from '../reducers/locales';
+import localesReducer, {initLocale, localesInitialState} from '../reducers/locales';
 
 import {setPlayer, setFullScreen} from '../reducers/mode.js';
+
+import locales from 'openblock-l10n';
+import {detectLocale} from './detect-locale';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -27,7 +30,11 @@ const AppStateHOC = function (WrappedComponent, localesOnly) {
             let reducers = {};
             let enhancer;
 
-            const initializedLocales = localesInitialState;
+            let initializedLocales = localesInitialState;
+            const locale = detectLocale(Object.keys(locales));
+            if (locale !== 'en') {
+                initializedLocales = initLocale(initializedLocales, locale);
+            }
             if (localesOnly) {
                 // Used for instantiating minimal state for the unsupported
                 // browser modal

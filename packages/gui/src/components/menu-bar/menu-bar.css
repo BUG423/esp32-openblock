@@ -29,70 +29,6 @@
     font-weight: bold;
     background-color: $motion-primary;
     color: $ui-white;
-    position: relative;
-}
-
-.window-controls {
-    position: absolute;
-    z-index: 2;
-    top: 0;
-    right: 0;
-    display: none;
-    width: 8.625rem;
-    height: $menu-bar-height;
-    align-items: stretch;
-    justify-content: flex-end;
-    overflow: hidden;
-    color: $ui-white;
-    background: $motion-primary;
-    user-select: none;
-}
-
-:global(.native-desktop) .window-controls {
-    display: flex;
-}
-
-.window-control {
-    display: inline-flex;
-    width: 2.875rem;
-    height: $menu-bar-height;
-    padding: 0;
-    align-items: center;
-    justify-content: center;
-    border: 0;
-    border-radius: 0;
-    color: inherit;
-    background: transparent;
-}
-
-.window-control:hover {
-    background: rgba(0, 0, 0, 0.12);
-}
-
-.window-control:active {
-    background: rgba(0, 0, 0, 0.2);
-}
-
-.window-control:focus-visible {
-    outline: 2px solid $ui-white;
-    outline-offset: -3px;
-}
-
-.window-control-close:hover {
-    background: #e81123;
-}
-
-.window-control-close:active {
-    background: #c50f1f;
-}
-
-.window-control svg {
-    width: 12px;
-    height: 12px;
-    fill: none;
-    stroke: currentColor;
-    stroke-linecap: square;
-    stroke-width: 1;
 }
 
 .main-menu {
@@ -101,12 +37,11 @@
     justify-content: flex-start;
     flex-wrap: nowrap;
     align-items: center;
-    flex: 0 1 auto;
-    min-width: 0;
+    flex-grow: 1;
 }
 
 .main-menu .menu-bar-item {
-    padding: 0 0.5rem;
+    padding: 0 0.75rem;
 }
 
 .file-menu {
@@ -115,9 +50,7 @@
     justify-content: center;
     flex-wrap: nowrap;
     align-items: center;
-    flex: 1 1 8rem;
-    min-width: 4rem;
-    overflow: hidden;
+    flex-grow: 1;
 }
 
 .file-menu .menu-bar-item {
@@ -130,11 +63,11 @@
     justify-content: flex-end;
     flex-wrap: nowrap;
     align-items: center;
-    flex: 0 0 auto;
+    flex-grow: 1;
 }
 
 .tail-menu .menu-bar-item {
-    padding: 0 0.5rem;
+    padding: 0 0.75rem;
 }
 
 .scratch-logo {
@@ -142,8 +75,13 @@
     vertical-align: middle;
 }
 
-:global(.native-window-drag-region) {
-    cursor: default;
+.screen-shot-logo {
+    height:  1.8rem;
+    vertical-align: middle;
+}
+
+.scratch-logo.clickable {
+    cursor: pointer;
 }
 
 .upload-firmware-logo {
@@ -330,7 +268,7 @@
 }
 
 .mystuff > a {
-  background-image: url("./icon--mystuff.png");
+  background-image: url("/images/mystuff.png");
 }
 
 .about-icon {
@@ -340,8 +278,8 @@
 }
 
 .program-mode-group {
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
 }
 
 .program-mode-switch {

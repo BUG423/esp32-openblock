@@ -12,6 +12,7 @@
     "packages/blocks",
     "packages/gui",
     "packages/l10n",
+    "packages/resource",
     "packages/vm"
   ],
   "scripts": {

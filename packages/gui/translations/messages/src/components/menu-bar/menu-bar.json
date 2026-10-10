@@ -5,6 +5,11 @@
     "defaultMessage": "language selector"
   },
   {
+    "id": "gui.menuBar.tutorialsLibrary",
+    "description": "accessibility text for the tutorials button",
+    "defaultMessage": "Tutorials"
+  },
+  {
     "id": "gui.menuBar.restoreSprite",
     "description": "Menu bar item for restoring the last deleted sprite.",
     "defaultMessage": "Restore Sprite"
@@ -96,8 +101,8 @@
   },
   {
     "id": "gui.menuBar.uploadFirmware",
-    "description": "Button to upload the user's program to the connected device",
-    "defaultMessage": "Upload program"
+    "description": "Button to upload the realtime firmware",
+    "defaultMessage": "Upload firmware"
   },
   {
     "id": "gui.menu-bar.modeSwitchRealtime",

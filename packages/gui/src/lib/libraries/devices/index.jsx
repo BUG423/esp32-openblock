@@ -4,10 +4,12 @@ import defaultsDeep from 'lodash.defaultsdeep';
 import log from '../../log';
 import { DeviceType } from '../../device';
 
+/* loongson */
 import loongbianIconURL from './loongbian/loongbian.png';
 import loongbianConnectionIconURLL from './loongbian/loongbian-illustration.svg';
 import loongbianConnectionSmallIconURL from './loongbian/loongbian-small.svg';
 
+/* atlas200DK */
 import atlas200DKIconURL from './atlas200DK/atlas200DK.png';
 import atlas200DKConnectionIconURLL from './atlas200DK/atlas200DK-illustration.svg';
 import atlas200DKConnectionSmallIconURL from './atlas200DK/atlas200DK-small.svg';
@@ -85,17 +87,18 @@ const deviceData = [
         programLanguage: ['block'],
         tags: ['realtime']
     },
-    // Keep the internal ID for compatibility with projects created before the rename.
+    // new test board
     {
-        name: 'ESP32 MicroPython',
+        name: '南强派',
         deviceId: 'txdboard',
-        manufactor: 'OpenBlock',
+        manufactor: '南强熊孩子实验室',
+        leanMore: 'https://www.xmu-maker.cn',
         type: DeviceType.microPython,
         iconURL: esp32IconURL,
         description: (
             <FormattedMessage
-                defaultMessage="ESP32 board with MicroPython and OpenBlock hardware extensions."
-                description="Description for the ESP32 MicroPython device"
+                defaultMessage="南强派"
+                description="Description for TXD TEST BOARD"
                 id="gui.device.txdboard.description"
             />
         ),
@@ -112,33 +115,35 @@ const deviceData = [
         connectingMessage: (
             <FormattedMessage
                 defaultMessage="Connecting"
-                description="Message shown while connecting to an ESP32 MicroPython device"
+                description="Message to help people connect to their 南强派"
                 id="gui.device.txdboard.connectingMessage"
             />
         ),
-        baseToolBoxXml: txdboardBaseToolBox,
+        baseToolBoxXml: txdboardBaseToolBox, // 插件
         programMode: ['upload'],
         programLanguage: ['block', 'microPython'],
-        tags: ['esp32']
+        tags: ['esp32'], // 选择时的分类， 作用不大
+        helpLink: 'https://www.xmu-maker.cn'
     },
+    // ! loongbian default
     {
         name: '龙芯教育派',
         deviceId: 'loongbian',
         manufactor: '龙芯中科',
-        learnMore: 'https://www.loongson.cn/productShow/31',
+        leanMore: 'https://www.loongson.cn/productShow/31',
         type: DeviceType.loongson,
         iconURL: loongbianIconURL,
         description: (
             <FormattedMessage
-                defaultMessage="Loongson 2K1000 education board with visual Python programming."
-                description="Description for the Loongson education board"
+                defaultMessage="龙芯2k1000教育派"
+                description="Description for the loongson device"
                 id="gui.device.loongbian.description"
             />
         ),
         featured: true,
         disabled: false,
         bluetoothRequired: false,
-        serialportRequired: true,
+        serialportRequired: true,  // 使用串口连接
         defaultBaudRate: '9600',
         internetConnectionRequired: false,
         launchPeripheralConnectionFlow: true,
@@ -148,26 +153,27 @@ const deviceData = [
         connectingMessage: (
             <FormattedMessage
                 defaultMessage="Connecting"
-                description="Message shown while connecting to a Loongson education board"
+                description="Message to help people connect to their loongbian 2k1000."
                 id="gui.device.loongbian.connectingMessage"
             />
         ),
-        baseToolBoxXml: loongsonBaseToolBox,
+        baseToolBoxXml: loongsonBaseToolBox, // 插件
         programMode: ['upload'],
         programLanguage: ['block', 'python'],
-        tags: ['loongson'],
+        tags: ['loongson'], // 选择时的分类， 作用不大
         helpLink: 'https://www.loongson.cn/productShow/31'
     },
+    // ! atlas200DK default
     {
         name: 'Atlas 200 DK',
         deviceId: 'atlas200DK',
         manufactor: '华为',
-        learnMore: 'https://e.huawei.com/cn/products/cloud-computing-dc/atlas/atlas-200',
+        leanMore: 'https://e.huawei.com/cn/products/cloud-computing-dc/atlas/atlas-200',
         type: DeviceType.huawei,
         iconURL: atlas200DKIconURL,
         description: (
             <FormattedMessage
-                defaultMessage="Atlas 200 DK AI developer kit with visual Python programming."
+                defaultMessage="Atlas 200 DK 开发者套件"
                 description="Description for the Atlas 200 DK device"
                 id="gui.device.atlas200DK.description"
             />
@@ -175,7 +181,7 @@ const deviceData = [
         featured: true,
         disabled: false,
         bluetoothRequired: false,
-        serialportRequired: true,
+        serialportRequired: true,  // 使用串口连接
         defaultBaudRate: '9600',
         internetConnectionRequired: false,
         launchPeripheralConnectionFlow: true,
@@ -185,14 +191,14 @@ const deviceData = [
         connectingMessage: (
             <FormattedMessage
                 defaultMessage="Connecting"
-                description="Message shown while connecting to an Atlas 200 DK"
+                description="Message to help people connect to their Atlas 200 DK."
                 id="gui.device.atlas200DK.connectingMessage"
             />
         ),
-        baseToolBoxXml: huaweiBaseToolBox,
+        baseToolBoxXml: huaweiBaseToolBox, // 插件
         programMode: ['upload'],
         programLanguage: ['block', 'python'],
-        tags: ['huawei'],
+        tags: ['huawei'], // 选择时的分类， 作用不大
         helpLink: 'https://e.huawei.com/cn/products/cloud-computing-dc/atlas/atlas-200'
     },
     {

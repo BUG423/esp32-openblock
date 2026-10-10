@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import omit from 'lodash.omit';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {connect} from 'react-redux';
 import MediaQuery from 'react-responsive';
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
@@ -11,11 +11,15 @@ import VM from 'openblock-vm';
 import Renderer from 'scratch-render';
 
 import Blocks from '../../containers/blocks.jsx';
+import CostumeTab from '../../containers/costume-tab.jsx';
 import TargetPane from '../../containers/target-pane.jsx';
+import SoundTab from '../../containers/sound-tab.jsx';
 import StageWrapper from '../../containers/stage-wrapper.jsx';
 import Loader from '../loader/loader.jsx';
 import Box from '../box/box.jsx';
 import MenuBar from '../menu-bar/menu-bar.jsx';
+import CostumeLibrary from '../../containers/costume-library.jsx';
+import BackdropLibrary from '../../containers/backdrop-library.jsx';
 import Watermark from '../../containers/watermark.jsx';
 import Hardware from '../../containers/hardware.jsx';
 import HardwareHeader from '../../containers/hardware-header.jsx';
@@ -23,6 +27,8 @@ import HardwareHeader from '../../containers/hardware-header.jsx';
 // eslint-disable-next-line no-unused-vars
 import Backpack from '../../containers/backpack.jsx';
 import WebGlModal from '../../containers/webgl-modal.jsx';
+import TipsLibrary from '../../containers/tips-library.jsx';
+import Cards from '../../containers/cards.jsx';
 import Alerts from '../../containers/alerts.jsx';
 import DragLayer from '../../containers/drag-layer.jsx';
 import ConnectionModal from '../../containers/connection-modal.jsx';
@@ -34,7 +40,18 @@ import layout, {STAGE_SIZE_MODES} from '../../lib/layout-constants';
 import {resolveStageSize} from '../../lib/screen-utils';
 
 import styles from './gui.css';
+import addExtensionIcon from './icon--extensions.svg';
 import codeIcon from './icon--code.svg';
+import costumesIcon from './icon--costumes.svg';
+import soundsIcon from './icon--sounds.svg';
+
+const messages = defineMessages({
+    addExtension: {
+        id: 'gui.gui.addExtension',
+        description: 'Button to add an extension in the target pane',
+        defaultMessage: 'Add Extension'
+    }
+});
 
 // Cache this value to only retrieve it once the first time.
 // Assume that it doesn't change for a session.
@@ -49,11 +66,13 @@ const GUIComponent = props => {
         authorThumbnailUrl,
         authorUsername,
         basePath,
+        backdropLibraryVisible,
         // eslint-disable-next-line no-unused-vars
         backpackHost,
         // eslint-disable-next-line no-unused-vars
         backpackVisible,
         blocksTabVisible,
+        cardsVisible,
         canChangeLanguage,
         canCreateNew,
         canEditTitle,
@@ -66,8 +85,11 @@ const GUIComponent = props => {
         children,
         connectionModalVisible,
         uploadProgressVisible,
+        costumeLibraryVisible,
+        costumesTabVisible,
         updateModalVisible,
         enableCommunity,
+        intl,
         isCreating,
         isFullScreen,
         isPlayerOnly,
@@ -84,12 +106,18 @@ const GUIComponent = props => {
         onOpenRegistration,
         onToggleLoginOpen,
         onAbortUpdate,
+        onActivateCostumesTab,
+        onActivateSoundsTab,
         onActivateTab,
+        onClickLogo,
         onClickCheckUpdate,
         onClickUpdate,
         onClickClearCache,
         onClickInstallDriver,
+        onExtensionButtonClick,
         onProjectTelemetryEvent,
+        onRequestCloseBackdropLibrary,
+        onRequestCloseCostumeLibrary,
         onRequestCloseTelemetryModal,
         onSeeCommunity,
         onShare,
@@ -100,8 +128,11 @@ const GUIComponent = props => {
         onTelemetryModalOptIn,
         onTelemetryModalOptOut,
         showComingSoon,
+        soundsTabVisible,
         stageSizeMode,
+        targetIsStage,
         telemetryModalVisible,
+        tipsLibraryVisible,
         vm,
         isRealtimeMode,
         ...componentProps
@@ -168,6 +199,12 @@ const GUIComponent = props => {
                 {isRendererSupported ? null : (
                     <WebGlModal isRtl={isRtl} />
                 )}
+                {tipsLibraryVisible ? (
+                    <TipsLibrary />
+                ) : null}
+                {cardsVisible ? (
+                    <Cards />
+                ) : null}
                 {alertsVisible ? (
                     <Alerts
                         vm={vm}
@@ -182,6 +219,18 @@ const GUIComponent = props => {
                 {uploadProgressVisible ? (
                     <UploadProgress
                         vm={vm}
+                    />
+                ) : null}
+                {costumeLibraryVisible ? (
+                    <CostumeLibrary
+                        vm={vm}
+                        onRequestClose={onRequestCloseCostumeLibrary}
+                    />
+                ) : null}
+                {backdropLibraryVisible ? (
+                    <BackdropLibrary
+                        vm={vm}
+                        onRequestClose={onRequestCloseBackdropLibrary}
                     />
                 ) : null}
                 {updateModalVisible ? (
@@ -213,6 +262,7 @@ const GUIComponent = props => {
                     showComingSoon={showComingSoon}
                     onClickAbout={onClickAbout}
                     onClickAccountNav={onClickAccountNav}
+                    onClickLogo={onClickLogo}
                     onCloseAccountNav={onCloseAccountNav}
                     onLogOut={onLogOut}
                     onOpenRegistration={onOpenRegistration}
@@ -249,6 +299,46 @@ const GUIComponent = props => {
                                             id="gui.gui.codeTab"
                                         />
                                     </Tab>
+                                    <Tab
+                                        className={classNames(tabClassNames.tab,
+                                            isRealtimeMode ? styles.hideCustomAndSoundTab :
+                                                styles.showCustomAndSoundTab)}
+                                        onClick={onActivateCostumesTab}
+                                    >
+                                        <img
+                                            draggable={false}
+                                            src={costumesIcon}
+                                        />
+                                        {targetIsStage ? (
+                                            <FormattedMessage
+                                                defaultMessage="Backdrops"
+                                                description="Button to get to the backdrops panel"
+                                                id="gui.gui.backdropsTab"
+                                            />
+                                        ) : (
+                                            <FormattedMessage
+                                                defaultMessage="Costumes"
+                                                description="Button to get to the costumes panel"
+                                                id="gui.gui.costumesTab"
+                                            />
+                                        )}
+                                    </Tab>
+                                    <Tab
+                                        className={classNames(tabClassNames.tab,
+                                            isRealtimeMode ? styles.hideCustomAndSoundTab :
+                                                styles.showCustomAndSoundTab)}
+                                        onClick={onActivateSoundsTab}
+                                    >
+                                        <img
+                                            draggable={false}
+                                            src={soundsIcon}
+                                        />
+                                        <FormattedMessage
+                                            defaultMessage="Sounds"
+                                            description="Button to get to the sounds panel"
+                                            id="gui.gui.soundsTab"
+                                        />
+                                    </Tab>
                                 </TabList>
                                 <TabPanel className={tabClassNames.tabPanel}>
                                     <Box className={styles.blocksWrapper}>
@@ -263,9 +353,31 @@ const GUIComponent = props => {
                                             vm={vm}
                                         />
                                     </Box>
+                                    <Box className={styles.extensionButtonContainer}>
+                                        <button
+                                            className={styles.extensionButton}
+                                            title={intl.formatMessage(messages.addExtension)}
+                                            onClick={onExtensionButtonClick}
+                                        >
+                                            <img
+                                                className={styles.extensionButtonIcon}
+                                                draggable={false}
+                                                src={addExtensionIcon}
+                                            />
+                                        </button>
+                                    </Box>
                                     <Box className={styles.watermark}>
                                         <Watermark />
                                     </Box>
+                                </TabPanel>
+                                <TabPanel className={tabClassNames.tabPanel}>
+                                    {costumesTabVisible ? <CostumeTab vm={vm} /> : null}
+                                </TabPanel>
+                                <TabPanel className={tabClassNames.tabPanel}>
+                                    {soundsTabVisible ? <SoundTab
+                                        vm={vm}
+                                        onShowMessageBox={onShowMessageBox}
+                                    /> : null}
                                 </TabPanel>
                             </Tabs>
                             {/*
@@ -316,6 +428,7 @@ GUIComponent.propTypes = {
     authorId: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // can be false
     authorThumbnailUrl: PropTypes.string,
     authorUsername: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // can be false
+    backdropLibraryVisible: PropTypes.bool,
     backpackHost: PropTypes.string,
     backpackVisible: PropTypes.bool,
     basePath: PropTypes.string,
@@ -329,8 +442,12 @@ GUIComponent.propTypes = {
     canSave: PropTypes.bool,
     canShare: PropTypes.bool,
     canUseCloud: PropTypes.bool,
+    cardsVisible: PropTypes.bool,
     children: PropTypes.node,
+    costumeLibraryVisible: PropTypes.bool,
+    costumesTabVisible: PropTypes.bool,
     enableCommunity: PropTypes.bool,
+    intl: intlShape.isRequired,
     isCreating: PropTypes.bool,
     isFullScreen: PropTypes.bool,
     isPlayerOnly: PropTypes.bool,
@@ -338,8 +455,11 @@ GUIComponent.propTypes = {
     isShared: PropTypes.bool,
     loading: PropTypes.bool,
     logo: PropTypes.string,
+    onActivateCostumesTab: PropTypes.func,
+    onActivateSoundsTab: PropTypes.func,
     onActivateTab: PropTypes.func,
     onClickAccountNav: PropTypes.func,
+    onClickLogo: PropTypes.func,
     onClickCheckUpdate: PropTypes.func,
     onAbortUpdate: PropTypes.func,
     onClickUpdate: PropTypes.func,
@@ -364,8 +484,11 @@ GUIComponent.propTypes = {
     onToggleLoginOpen: PropTypes.func,
     renderLogin: PropTypes.func,
     showComingSoon: PropTypes.bool,
+    soundsTabVisible: PropTypes.bool,
     stageSizeMode: PropTypes.oneOf(Object.keys(STAGE_SIZE_MODES)),
+    targetIsStage: PropTypes.bool,
     telemetryModalVisible: PropTypes.bool,
+    tipsLibraryVisible: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired,
     isRealtimeMode: PropTypes.bool
 };
@@ -373,7 +496,7 @@ GUIComponent.defaultProps = {
     backpackHost: null,
     backpackVisible: false,
     basePath: './',
-    canChangeLanguage: false,
+    canChangeLanguage: true,
     canCreateNew: false,
     canEditTitle: false,
     canManageFiles: true,
@@ -395,6 +518,6 @@ const mapStateToProps = state => ({
     stageSizeMode: state.scratchGui.stageSize.stageSize
 });
 
-export default connect(
+export default injectIntl(connect(
     mapStateToProps
-)(GUIComponent);
+)(GUIComponent));

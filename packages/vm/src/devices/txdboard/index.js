@@ -1,7 +1,7 @@
 const formatMessage = require('format-message');
 const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
-const TxdBoardPeripheral = require('../common/wifi-peripheral');
+const TxdBoardPeripheral = require('../common/micropython-peripheral');
 const DIVECE_OPT = {
     type: 'txdboard'  //  告诉 openblock-link 使用哪种编译器和烧写软件来接收处理上传请求。
 };
@@ -1630,7 +1630,7 @@ class OpenBlockTxdBoardDevice {
                     arguments: {
                         CONTENT: {
                             type: ArgumentType.STRING,
-                            defaultValue: 'ESP32 MicroPython'
+                            defaultValue: '南强派'
                         }
                     },
                 },

@@ -250,7 +250,7 @@ class Gen_compressed(threading.Thread):
         self.gen_generator("arduino")
         self.gen_generator("python")
         self.gen_generator("loongson")
-        self.gen_generator("micropython")
+        self.gen_generator("micropython") # new code generator
 
     def gen_core(self, vertical):
         if vertical:
