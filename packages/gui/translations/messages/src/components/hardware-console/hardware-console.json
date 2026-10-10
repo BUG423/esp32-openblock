@@ -1,0 +1,22 @@
+[
+  {
+    "id": "gui.hardwareConsole.send",
+    "description": "Button in bottom to send data to serialport",
+    "defaultMessage": "Send"
+  },
+  {
+    "id": "gui.hardwareConsole.timestamp",
+    "description": "Display timestamp in line.",
+    "defaultMessage": "Show timestamp"
+  },
+  {
+    "id": "gui.hardwareConsole.hexform",
+    "description": "Display serial port data in hexadecimal.",
+    "defaultMessage": "Hex form"
+  },
+  {
+    "id": "gui.hardwareConsole.autoScroll",
+    "description": "Auto scroll serialport console data.",
+    "defaultMessage": "Auto scroll"
+  }
+]

@@ -1,0 +1,7 @@
+[
+  {
+    "id": "gui.updateModal.updateWarning",
+    "description": "Confirmation that user wants update",
+    "defaultMessage": "Currently unsaved projects will be lost, continue update and restart?"
+  }
+]

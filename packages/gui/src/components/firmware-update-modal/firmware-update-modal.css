@@ -1,0 +1,18 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+
+.body {
+    display: flex;
+    flex: 1;
+    height: calc(100vh - $library-header-height);
+    min-height: 0;
+    background: $ui-primary;
+}
+
+.frame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: $ui-primary;
+}

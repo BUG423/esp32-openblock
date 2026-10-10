@@ -1,0 +1,43 @@
+{
+  "name": "open-block",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OpenBlock independent graphical programming platform",
+  "packageManager": "npm@11.17.0",
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=11.0.0"
+  },
+  "workspaces": [
+    "packages/blocks",
+    "packages/gui",
+    "packages/l10n",
+    "packages/vm"
+  ],
+  "scripts": {
+    "build": "npm run build:l10n && npm run build:blocks && npm run build:vm && npm run build:gui && npm run copy:build",
+    "build:l10n": "npm run build --workspace=openblock-l10n",
+    "build:blocks": "npm run build --workspace=openblock-blocks",
+    "build:vm": "npm run build:production --workspace=openblock-vm",
+    "build:gui": "npm run build:production --workspace=openblock-gui",
+    "copy:build": "node -e \"const fs=require('fs'); fs.rmSync('build', {recursive:true, force:true}); fs.mkdirSync('build', {recursive:true}); fs.cpSync('packages/gui/build', 'build', {recursive:true}); fs.writeFileSync('build/.nojekyll', ''); console.log('Successfully copied gui build to build/ with .nojekyll');\"",
+    "start": "npm start --workspace=openblock-gui",
+    "serve": "python3 -m http.server 8080 --directory build",
+    "desktop:build": "tauri build --config desktop/src-tauri/tauri.conf.json",
+    "desktop:dev": "tauri dev --config desktop/src-tauri/tauri.conf.json",
+    "check:desktop": "cargo check --manifest-path desktop/src-tauri/Cargo.toml"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "2.11.1",
+    "dompurify": "3.4.14"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.11.4",
+    "cross-env": "10.1.0"
+  },
+  "overrides": {
+    "scratch-svg-renderer": {
+      "dompurify": "3.4.14"
+    }
+  }
+}

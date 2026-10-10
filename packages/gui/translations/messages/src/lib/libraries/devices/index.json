@@ -1,0 +1,132 @@
+[
+  {
+    "id": "gui.device.unselectDevice.name",
+    "description": "Name for the unselect device",
+    "defaultMessage": "Unselect device"
+  },
+  {
+    "id": "gui.device.unselectDevice.description",
+    "description": "Description for the unselect device",
+    "defaultMessage": "Unselect the device, return to pure realtime programming mode."
+  },
+  {
+    "id": "gui.device.txdboard.description",
+    "description": "Description for the ESP32 MicroPython device",
+    "defaultMessage": "ESP32 board with MicroPython and OpenBlock hardware extensions."
+  },
+  {
+    "id": "gui.device.txdboard.connectingMessage",
+    "description": "Message shown while connecting to an ESP32 MicroPython device",
+    "defaultMessage": "Connecting"
+  },
+  {
+    "id": "gui.device.loongbian.description",
+    "description": "Description for the Loongson education board",
+    "defaultMessage": "Loongson 2K1000 education board with visual Python programming."
+  },
+  {
+    "id": "gui.device.loongbian.connectingMessage",
+    "description": "Message shown while connecting to a Loongson education board",
+    "defaultMessage": "Connecting"
+  },
+  {
+    "id": "gui.device.atlas200DK.description",
+    "description": "Description for the Atlas 200 DK device",
+    "defaultMessage": "Atlas 200 DK AI developer kit with visual Python programming."
+  },
+  {
+    "id": "gui.device.atlas200DK.connectingMessage",
+    "description": "Message shown while connecting to an Atlas 200 DK",
+    "defaultMessage": "Connecting"
+  },
+  {
+    "id": "gui.device.arduinoUno.description",
+    "description": "Description for the Arduino Uno device",
+    "defaultMessage": "A great board to get started with electronics and coding."
+  },
+  {
+    "id": "gui.device.arduinoUno.connectingMessage",
+    "description": "Message to help people connect to their device.",
+    "defaultMessage": "Connecting"
+  },
+  {
+    "id": "gui.device.arduinoNano.description",
+    "description": "Description for the Arduino Nano device",
+    "defaultMessage": "The Arduino Nano is a classic small board to build your projects with."
+  },
+  {
+    "id": "gui.device.arduinoNano.connectingMessage",
+    "description": "Message to help people connect to their device.",
+    "defaultMessage": "Connecting"
+  },
+  {
+    "id": "gui.device.arduinoLeonardo.description",
+    "description": "Description for the Arduino Leonardo device",
+    "defaultMessage": "The classic Arduino board that can act as a mouse or keyboard."
+  },
+  {
+    "id": "gui.device.arduinoLeonardo.connectingMessage",
+    "description": "Message to help people connect to their device.",
+    "defaultMessage": "Connecting"
+  },
+  {
+    "id": "gui.device.arduinoMega2560.description",
+    "description": "Description for the Arduino Mega 2560 device",
+    "defaultMessage": "The 8-bit board with 54 digital pins, 16 analog inputs, and 4 serial ports."
+  },
+  {
+    "id": "gui.device.arduinoMega2560.connectingMessage",
+    "description": "Message to help people connect to their device.",
+    "defaultMessage": "Connecting"
+  },
+  {
+    "id": "gui.device.esp32.description",
+    "description": "Description for the esp32 device",
+    "defaultMessage": "Wi-Fi & Bluetooth control board with rich functions."
+  },
+  {
+    "id": "gui.device.esp32.connectingMessage",
+    "description": "Message to help people connect to their esp32.",
+    "defaultMessage": "Connecting"
+  },
+  {
+    "id": "gui.device.esp8266.description",
+    "description": "Description for the esp8266 device",
+    "defaultMessage": "Low-cost Wi-Fi SOC control board."
+  },
+  {
+    "id": "gui.device.esp8266.connectingMessage",
+    "description": "Message to help people connect to their device.",
+    "defaultMessage": "Connecting"
+  },
+  {
+    "id": "gui.device.microbit.description",
+    "description": "Description for the micro:bit device",
+    "defaultMessage": "The pocket-sized computer transforming digital skills learning."
+  },
+  {
+    "id": "gui.device.microbit.connectingMessage",
+    "description": "Message to help people connect to their device.",
+    "defaultMessage": "Connecting"
+  },
+  {
+    "id": "gui.device.microbitV2.description",
+    "description": "Description for the micro:bit V2 device",
+    "defaultMessage": "Upgraded processor, built-In speaker and microphone, touch sensitive logo."
+  },
+  {
+    "id": "gui.device.microbitV2.connectingMessage",
+    "description": "Message to help people connect to their device.",
+    "defaultMessage": "Connecting"
+  },
+  {
+    "id": "gui.device.makeymakey.description",
+    "description": "Description for the Makey Makey device",
+    "defaultMessage": "Make anything into a key."
+  },
+  {
+    "id": "gui.device.makeyMakey.connectingMessage",
+    "description": "Message to help people connect to their device.",
+    "defaultMessage": "Connecting"
+  }
+]

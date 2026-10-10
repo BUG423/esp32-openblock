@@ -1,0 +1,12 @@
+[
+  {
+    "id": "gui.extension.makeymakey.name",
+    "description": "Name for the Makey Makey hardware extension",
+    "defaultMessage": "Makey Makey"
+  },
+  {
+    "id": "gui.extension.makeymakey.description",
+    "description": "Description for the Makey Makey hardware extension",
+    "defaultMessage": "Make anything into a key."
+  }
+]

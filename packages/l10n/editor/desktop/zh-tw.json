@@ -1,0 +1,20 @@
+{
+    "index.cameraPermissionDeniedMessage": "使用攝像頭的權限已被拒絕。 OpenBlock 將無法拍照或使用視頻偵測塊。",
+    "index.cameraPermissionDeniedTitle": "攝像頭權限被拒絕",
+    "index.darwinPermissionDeniedInstructions": "要更改 OpenBlock 的權限，請檢查 “系統首選項” 中的 “安全和隱私” 設定。",
+    "index.failedLoadProject": "無法從檔案載入專案：",
+    "index.initialResourcesFailedTitle": "初始化資源失敗",
+    "index.initializeResourcesFailed": "初始化資源失敗",
+    "index.internetDisconnectedError": "未連接到互聯網，請檢查您的網絡連接並重新嘗試。",
+    "index.leave": "離開",
+    "index.microphonePermissionDeniedMessage": "使用麥克風的權限已被拒絕。 OpenBlock 將無法錄製聲音或檢測音量。",
+    "index.microphonePermissionDeniedTitle": "麥克風權限被拒絕",
+    "index.permissionDeniedInstructions": "更改 OpenBlock 的權限，請檢察系統設置並重新啟動 OpenBlock。",
+    "index.permissionDeniedMessage": "權限已被拒絕。",
+    "index.permissionDeniedTitle": "沒有權限",
+    "index.questionLeave": "離開 Openblock？",
+    "index.questionLeaveDetail": "任何未保存的更改將遺失。",
+    "index.saveFailed": "保存失敗：",
+    "index.saveFailedTitle": "保存項目失敗",
+    "index.stay": "停留"
+}

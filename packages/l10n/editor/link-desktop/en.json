@@ -1,0 +1,18 @@
+{
+    "index.menu.checkUpdate": "check update",
+    "index.menu.checkingUpdate": "checking for update...",
+    "index.menu.exit": "exit",
+    "index.menu.installDiver": "install driver",
+    "index.menu.learCacheAndRestart": "clear cache and restart",
+    "index.menu.setLanguage": "set language",
+    "index.messageBox.alreadyLatest": "Already latest",
+    "index.messageBox.alreadyLatestTips": "External source is already latest.",
+    "index.messageBox.covering": "Covering",
+    "index.messageBox.downloading": "Downloading",
+    "index.messageBox.newExternalResource": "New external resource version detected",
+    "index.messageBox.operationFailed": "Operation failed",
+    "index.messageBox.upgradeAndRestart": "Upgrade and restart",
+    "index.messageBox.upgradeLater": "Upgrade later",
+    "index.messageBox.upgrading": "Upgrading",
+    "index.messageBox.upgradingTip": "The upgrade is in progress, please do not close me, the program will automatically restart after the upgrade is completed."
+}

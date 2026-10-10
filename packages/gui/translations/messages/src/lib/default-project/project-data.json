@@ -1,0 +1,12 @@
+[
+  {
+    "id": "gui.defaultProject.chirp",
+    "description": "Name for the chirp sound",
+    "defaultMessage": "Chirp"
+  },
+  {
+    "id": "gui.defaultProject.variable",
+    "description": "Name for the default variable",
+    "defaultMessage": "my variable"
+  }
+]

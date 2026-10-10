@@ -1,0 +1,82 @@
+name: Build OpenBlock Desktop
+
+on:
+  push:
+    tags:
+      - "v*"
+      - "desktop-v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Desktop App (${{ matrix.platform }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: "windows-x86_64"
+            os: windows-latest
+            artifact_name: "openblock-desktop-windows"
+            bundle_path: "desktop/src-tauri/target/release/bundle/nsis/*.exe"
+          - platform: "linux-x86_64"
+            os: ubuntu-22.04
+            artifact_name: "openblock-desktop-linux"
+            bundle_path: "desktop/src-tauri/target/release/bundle/deb/*.deb"
+          - platform: "macos-x86_64"
+            os: macos-latest
+            artifact_name: "openblock-desktop-macos"
+            bundle_path: "desktop/src-tauri/target/release/bundle/dmg/*.dmg"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: "npm"
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust dependencies
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: desktop/src-tauri -> target
+
+      - name: Install Linux build prerequisites
+        if: matrix.os == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libudev-dev
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build OpenBlock frontend
+        run: npm run build
+
+      - name: Build Tauri desktop application
+        run: npm run desktop:build
+
+      - name: Upload desktop installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.bundle_path }}
+          if-no-files-found: warn
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ matrix.bundle_path }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

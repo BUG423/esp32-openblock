@@ -1,0 +1,18 @@
+{
+    "index.menu.checkUpdate": "检查更新",
+    "index.menu.checkingUpdate": "正在检查更新...",
+    "index.menu.exit": "退出",
+    "index.menu.installDiver": "安装驱动",
+    "index.menu.learCacheAndRestart": "清除缓存并重启",
+    "index.menu.setLanguage": "设置语言",
+    "index.messageBox.alreadyLatest": "已经是最新的了",
+    "index.messageBox.alreadyLatestTips": "外部资源已经是最新的了。",
+    "index.messageBox.covering": "覆盖中",
+    "index.messageBox.downloading": "下载中",
+    "index.messageBox.newExternalResource": "检测到新版本的外部资源",
+    "index.messageBox.operationFailed": "操作失败",
+    "index.messageBox.upgradeAndRestart": "升级并重启",
+    "index.messageBox.upgradeLater": "稍后升级",
+    "index.messageBox.upgrading": "升级中",
+    "index.messageBox.upgradingTip": "升级正在进行中，请不要关闭我，升级完成后程序会自动重启。"
+}

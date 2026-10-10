@@ -1,0 +1,12 @@
+[
+  {
+    "id": "gui.uploadProgress.uploadErrorMessage",
+    "description": "Prompt for upload error",
+    "defaultMessage": "Upload error"
+  },
+  {
+    "id": "gui.uploadProgress.uploadTimeoutMessage",
+    "description": "Prompt for upload timeout",
+    "defaultMessage": "Upload timeout"
+  }
+]

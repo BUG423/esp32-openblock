@@ -1,0 +1,57 @@
+// GENERATED FILE:
+module.exports = {
+  "en": {
+    "index.menu.checkUpdate": "check update",
+    "index.menu.checkingUpdate": "checking for update...",
+    "index.menu.exit": "exit",
+    "index.menu.installDiver": "install driver",
+    "index.menu.learCacheAndRestart": "clear cache and restart",
+    "index.menu.setLanguage": "set language",
+    "index.messageBox.alreadyLatest": "Already latest",
+    "index.messageBox.alreadyLatestTips": "External source is already latest.",
+    "index.messageBox.covering": "Covering",
+    "index.messageBox.downloading": "Downloading",
+    "index.messageBox.newExternalResource": "New external resource version detected",
+    "index.messageBox.operationFailed": "Operation failed",
+    "index.messageBox.upgradeAndRestart": "Upgrade and restart",
+    "index.messageBox.upgradeLater": "Upgrade later",
+    "index.messageBox.upgrading": "Upgrading",
+    "index.messageBox.upgradingTip": "The upgrade is in progress, please do not close me, the program will automatically restart after the upgrade is completed."
+  },
+  "zh-cn": {
+    "index.menu.checkUpdate": "检查更新",
+    "index.menu.checkingUpdate": "正在检查更新...",
+    "index.menu.exit": "退出",
+    "index.menu.installDiver": "安装驱动",
+    "index.menu.learCacheAndRestart": "清除缓存并重启",
+    "index.menu.setLanguage": "设置语言",
+    "index.messageBox.alreadyLatest": "已经是最新的了",
+    "index.messageBox.alreadyLatestTips": "外部资源已经是最新的了。",
+    "index.messageBox.covering": "覆盖中",
+    "index.messageBox.downloading": "下载中",
+    "index.messageBox.newExternalResource": "检测到新版本的外部资源",
+    "index.messageBox.operationFailed": "操作失败",
+    "index.messageBox.upgradeAndRestart": "升级并重启",
+    "index.messageBox.upgradeLater": "稍后升级",
+    "index.messageBox.upgrading": "升级中",
+    "index.messageBox.upgradingTip": "升级正在进行中，请不要关闭我，升级完成后程序会自动重启。"
+  },
+  "zh-tw": {
+    "index.menu.checkUpdate": "檢查更新",
+    "index.menu.checkingUpdate": "正在檢查更新...",
+    "index.menu.exit": "退出",
+    "index.menu.installDiver": "安裝驅動",
+    "index.menu.learCacheAndRestart": "清除緩存並重啟",
+    "index.menu.setLanguage": "設置語言",
+    "index.messageBox.alreadyLatest": "已經是最新的了",
+    "index.messageBox.alreadyLatestTips": "外部資源已經是最新的了。",
+    "index.messageBox.covering": "覆蓋中",
+    "index.messageBox.downloading": "下載中",
+    "index.messageBox.newExternalResource": "檢測到新版本的外部資源",
+    "index.messageBox.operationFailed": "操作失敗",
+    "index.messageBox.upgradeAndRestart": "升級並重啟",
+    "index.messageBox.upgradeLater": "稍後升級",
+    "index.messageBox.upgrading": "升級中",
+    "index.messageBox.upgradingTip": "升級正在進行中，請不要關閉我，升級完成後程序會自動重啟。"
+  }
+};

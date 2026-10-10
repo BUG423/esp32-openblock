@@ -1,0 +1,20 @@
+{
+    "index.cameraPermissionDeniedMessage": "使用摄像头的权限已被拒绝。OpenBlock 将无法拍照或使用视频侦测块。",
+    "index.cameraPermissionDeniedTitle": "摄像头权限被拒绝",
+    "index.darwinPermissionDeniedInstructions": "要更改 OpenBlock 的权限，请检查 “系统首选项” 中的 “安全和隐私” 设定。",
+    "index.failedLoadProject": "无法从文件加载项目：",
+    "index.initialResourcesFailedTitle": "初始化资源失败",
+    "index.initializeResourcesFailed": "初始化资源失败",
+    "index.internetDisconnectedError": "未连接到互联网，请检查您的网络连接并重新尝试。",
+    "index.leave": "离开",
+    "index.microphonePermissionDeniedMessage": "使用麦克风的权限已被拒绝。 OpenBlock 将无法录制声音或检测响度。",
+    "index.microphonePermissionDeniedTitle": "麦克风许可被拒绝",
+    "index.permissionDeniedInstructions": "要更改 OpenBlock 的权限，请检查系统设置并重新启动 OpenBlock。",
+    "index.permissionDeniedMessage": "权限已被拒绝。",
+    "index.permissionDeniedTitle": "没有权限",
+    "index.questionLeave": "离开 Openblock？",
+    "index.questionLeaveDetail": "任何未保存的更改将丢失。",
+    "index.saveFailed": "保存失败：",
+    "index.saveFailedTitle": "保存项目失败",
+    "index.stay": "留下"
+}

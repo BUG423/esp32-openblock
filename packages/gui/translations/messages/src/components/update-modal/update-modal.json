@@ -1,0 +1,117 @@
+[
+  {
+    "id": "gui.updateModal.close",
+    "description": "Button in bottom to close update modal",
+    "defaultMessage": "Close"
+  },
+  {
+    "id": "gui.updateModal.downloading",
+    "description": "Prompt for in downloading porgress",
+    "defaultMessage": "Downloading"
+  },
+  {
+    "id": "gui.updateModal.abort",
+    "description": "Button in bottom to abort update",
+    "defaultMessage": "Abort"
+  },
+  {
+    "id": "gui.updateModel.tileCheckingForUpdate",
+    "description": "Tile of update modal in checking for update",
+    "defaultMessage": "Checking for update"
+  },
+  {
+    "id": "gui.updateModel.checkingTips",
+    "description": "Prompt for in checking update process",
+    "defaultMessage": "Depending on your network, this step may take a few seconds to a dozen seconds, please wait."
+  },
+  {
+    "id": "gui.updateModel.tileUpdateExternalResource",
+    "description": "Tile of update modal in new external resource version detected",
+    "defaultMessage": "New version of external resource detected"
+  },
+  {
+    "id": "gui.updateModel.tileUpdateApplication",
+    "description": "Tile of update modal in new application version detected",
+    "defaultMessage": "New version of this application adetected"
+  },
+  {
+    "id": "gui.updateModal.updateLater",
+    "description": "Button in bottom to update later",
+    "defaultMessage": "Update later"
+  },
+  {
+    "id": "gui.updateModal.updateAndRestart",
+    "description": "Button in bottom to confirm update and restart",
+    "defaultMessage": "Update and restart"
+  },
+  {
+    "id": "gui.updateModel.tileAlreadyLatest",
+    "description": "Tile of update modal in already latest",
+    "defaultMessage": "No new version detected"
+  },
+  {
+    "id": "gui.updateModel.alreadyLatestTips",
+    "description": "Prompt for already latest",
+    "defaultMessage": "Openblock is already the latest version."
+  },
+  {
+    "id": "gui.updateModel.tileError",
+    "description": "Tile of update modal in error",
+    "defaultMessage": "Operation failed"
+  },
+  {
+    "id": "gui.updateModel.upgradingExternalResource",
+    "description": "Tile of update modal in external resource upgrading",
+    "defaultMessage": "Upgrading external resource"
+  },
+  {
+    "id": "gui.updateModal.deletingCompressedFile",
+    "description": "Prompt for in deleting compressed file porgress",
+    "defaultMessage": "Deleting compressed file"
+  },
+  {
+    "id": "gui.updateModal.deletingCacheFile",
+    "description": "Prompt for in deleting cache file porgress",
+    "defaultMessage": "Deleting cache file"
+  },
+  {
+    "id": "gui.updateModal.extractingCompressedFile",
+    "description": "Prompt for in extracting compressed file porgress",
+    "defaultMessage": "Extracting compressed file"
+  },
+  {
+    "id": "gui.updateModal.verifyingCompressedFile",
+    "description": "Prompt for in verifying compressed file porgress",
+    "defaultMessage": "Verifying compressed file"
+  },
+  {
+    "id": "gui.updateModal.verifyingCacheFile",
+    "description": "Prompt for in verifying cache file porgress",
+    "defaultMessage": "Verifying cache file"
+  },
+  {
+    "id": "gui.updateModel.tileResourceUpdateFinish",
+    "description": "Tile of update modal in external resource update finish",
+    "defaultMessage": "External resource update complete"
+  },
+  {
+    "id": "gui.updateModal.resourceUpdateFinishTips",
+    "description": "Prompt for external resource update finish",
+    "defaultMessage": "External resource update complete, the application will automatically restart after 3 seconds."
+  },
+  {
+    "id": "gui.updateModel.downloadingApplication",
+    "description": "Tile of update modal in application downloading",
+    "defaultMessage": "Downloading application"
+  },
+  {
+    "id": "gui.updateModel.tileApplicationDownloadFinish",
+    "description": "Tile of update modal in application download finish",
+    "defaultMessage": "Application download complete"
+  },
+  {
+    "id": "gui.updateModal.applicationDownloadeFinishTips",
+    "description": "Prompt for application download finish",
+    "defaultMessage": "Application download complete, it will automatically quit and start installer after 3 seconds."
+  }
+]
