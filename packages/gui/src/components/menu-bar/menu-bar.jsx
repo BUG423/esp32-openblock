@@ -15,7 +15,6 @@ import CommunityButton from './community-button.jsx'; // eslint-disable-line no-
 import ShareButton from './share-button.jsx'; // eslint-disable-line no-unused-vars
 import {ComingSoonTooltip} from '../coming-soon/coming-soon.jsx';
 import Divider from '../divider/divider.jsx';
-import FirmwareUpdateModal from '../firmware-update-modal/firmware-update-modal.jsx';
 import LanguageSelector from '../../containers/language-selector.jsx';
 import SaveStatus from './save-status.jsx'; // eslint-disable-line no-unused-vars
 import ProjectWatcher from '../../containers/project-watcher.jsx'; // eslint-disable-line no-unused-vars
@@ -109,11 +108,6 @@ const ariaMessages = defineMessages({
         id: 'gui.menuBar.LanguageSelector',
         defaultMessage: 'language selector',
         description: 'accessibility text for the language selection menu'
-    },
-    firmwareUpdate: {
-        id: 'gui.menuBar.firmwareUpdate',
-        defaultMessage: 'Firmware update',
-        description: 'Button to open the ESP32 firmware update tool'
     }
 });
 
@@ -187,9 +181,6 @@ AboutButton.propTypes = {
 class MenuBar extends React.Component {
     constructor (props) {
         super(props);
-        this.state = {
-            firmwareUpdateOpen: false
-        };
         bindAll(this, [
             'handleClickNew',
             'handleClickRemix',
@@ -203,8 +194,6 @@ class MenuBar extends React.Component {
             'getSaveToComputerHandler',
             'restoreOptionMessage',
             'handleConnectionMouseUp',
-            'handleOpenFirmwareUpdate',
-            'handleCloseFirmwareUpdate',
             'handleUploadProgram',
             'handleSelectDeviceMouseUp',
             'handleProgramModeSwitchOnChange',
@@ -334,12 +323,6 @@ class MenuBar extends React.Component {
         } else {
             this.props.onDeviceIsEmpty();
         }
-    }
-    handleOpenFirmwareUpdate () {
-        this.setState({firmwareUpdateOpen: true});
-    }
-    handleCloseFirmwareUpdate () {
-        this.setState({firmwareUpdateOpen: false});
     }
     handleSelectDeviceMouseUp () {
         const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
@@ -626,20 +609,6 @@ class MenuBar extends React.Component {
                             </React.Fragment>
                         )}
                     </div>
-                    <Divider className={classNames(styles.divider)} />
-                    <div
-                        className={classNames(styles.menuBarItem, styles.hoverable)}
-                        data-testid="firmware-update-button"
-                        onMouseUp={this.handleOpenFirmwareUpdate}
-                    >
-                        <img
-                            alt=""
-                            className={classNames(styles.uploadFirmwareLogo)}
-                            draggable={false}
-                            src={uploadFirmwareIcon}
-                        />
-                        <FormattedMessage {...ariaMessages.firmwareUpdate} />
-                    </div>
                     {/* <div
                         className={classNames(styles.menuBarItem)}
                     >
@@ -901,12 +870,6 @@ class MenuBar extends React.Component {
                     </button>
                 </div>
                 { (typeof this.props.onClickAbout === 'function') ? aboutButton : null}
-                {this.state.firmwareUpdateOpen ? (
-                    <FirmwareUpdateModal
-                        title={this.props.intl.formatMessage(ariaMessages.firmwareUpdate)}
-                        onRequestClose={this.handleCloseFirmwareUpdate}
-                    />
-                ) : null}
             </Box>
         );
     }

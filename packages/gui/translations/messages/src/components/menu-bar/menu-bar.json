@@ -5,11 +5,6 @@
     "defaultMessage": "language selector"
   },
   {
-    "id": "gui.menuBar.firmwareUpdate",
-    "description": "Button to open the ESP32 firmware update tool",
-    "defaultMessage": "Firmware update"
-  },
-  {
     "id": "gui.menuBar.restoreSprite",
     "description": "Menu bar item for restoring the last deleted sprite.",
     "defaultMessage": "Restore Sprite"
