@@ -17,6 +17,14 @@
 
 ---
 
+## 🖼️ 平台界面预览
+
+| 积木编排与 MicroPython 代码实时联动 | 主流硬件矩阵（ESP32 / 龙芯 / Atlas 200 DK） |
+| :---: | :---: |
+| ![OpenBlock 编程工作区](./docs/images/workspace-preview.png) | ![OpenBlock 支持硬件列表](./docs/images/devices-preview.png) |
+
+---
+
 ## 🖥️ 桌面端客户端 (Desktop)
 
 除了免安装的 Web 在线版外，OpenBlock 还提供基于 **Tauri 2 + Rust** 构建的跨平台桌面端客户端：
