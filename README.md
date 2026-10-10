@@ -2,6 +2,7 @@
 
 [![GitHub Pages](https://github.com/BUG423/esp32-openblock/actions/workflows/pages.yml/badge.svg)](https://github.com/BUG423/esp32-openblock/actions/workflows/pages.yml)
 [![Online Platform](https://img.shields.io/badge/Web-在线编程平台-blue.svg)](https://bug423.github.io/esp32-openblock/)
+[![GitHub Release](https://img.shields.io/github/v/release/BUG423/esp32-openblock?color=brightgreen)](https://github.com/BUG423/esp32-openblock/releases)
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-red.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
 > **OpenBlock** 是一个面向创客教育、嵌入式系统与人工智能教育的开源图形化编程平台。无需在本地安装复杂的工具链或编译器，即可在现代浏览器中直接进行积木编程、代码对照与硬件交互。
@@ -13,6 +14,16 @@
 平台已完成 GitHub Pages 云端自动化托管，即开即用：
 
 👉 **[点击直接进入 OpenBlock 在线编程平台](https://bug423.github.io/esp32-openblock/)**
+
+---
+
+## 🖥️ 桌面端客户端 (Desktop)
+
+除了免安装的 Web 在线版外，OpenBlock 还提供基于 **Tauri 2 + Rust** 构建的跨平台桌面端客户端：
+
+- **⚡ 轻量原生体验**：直接利用系统原生 Webview 渲染，相比传统框架体积更小、内存占用极低、启动迅速。
+- **🔌 原生硬件级直连**：内置 Rust 编写的高性能通信中间件（`openblock-link-rs`），原生支持 USB 串口自动识别、实时通信与固件高速直连烧录。
+- **📥 下载与使用**：前往仓库 **[Releases 发布页面](https://github.com/BUG423/esp32-openblock/releases)** 即可下载适用于 Windows / Linux / macOS 的独立安装程序与运行文件。
 
 ---
 
