@@ -52,6 +52,11 @@ import esp32IconURL from './esp32/esp32.png';
 import esp32ConnectionIconURLL from './esp32/esp32-illustration.svg';
 import esp32ConnectionSmallIconURL from './esp32/esp32-small.svg';
 
+/* txdboard / 南强派 */
+import txdboardIconURL from './txdboard/txdboard.png';
+import txdboardConnectionIconURLL from './txdboard/txdboard-illustration.svg';
+import txdboardConnectionSmallIconURL from './txdboard/txdboard-small.svg';
+
 import esp8266IconURL from './esp8266/esp8266.png';
 import esp8266ConnectionIconURL from './esp8266/esp8266-illustration.svg';
 import esp8266ConnectionSmallIconURL from './esp8266/esp8266-small.svg';
@@ -94,7 +99,7 @@ const deviceData = [
         manufactor: '南强熊孩子实验室',
         leanMore: 'https://www.xmu-maker.cn',
         type: DeviceType.microPython,
-        iconURL: esp32IconURL,
+        iconURL: txdboardIconURL,
         description: (
             <FormattedMessage
                 defaultMessage="南强派"
@@ -110,8 +115,8 @@ const deviceData = [
         internetConnectionRequired: false,
         launchPeripheralConnectionFlow: true,
         useAutoScan: false,
-        connectionIconURL: esp32ConnectionIconURLL,
-        connectionSmallIconURL: esp32ConnectionSmallIconURL,
+        connectionIconURL: txdboardConnectionIconURLL,
+        connectionSmallIconURL: txdboardConnectionSmallIconURL,
         connectingMessage: (
             <FormattedMessage
                 defaultMessage="Connecting"
